@@ -50,7 +50,7 @@ namespace HarmonyLib
 		private Dictionary<CodeInstruction, Infixes> m_Config = null;
 		private static void AddFix(CodeInstruction inst, Dictionary<CodeInstruction, Infixes> config, Patch fix, InnerFixType type)
 		{
-			if (!config.TryGetValue(inst, out var appliedFixes))
+			if (!config.TryGetValue(inst, out var fixesForInstruction))
 			{
 				switch (type)
 				{
@@ -63,9 +63,9 @@ namespace HarmonyLib
 			{
 				switch (type)
 				{
-					case InnerFixType.Prefix: appliedFixes.SortedInnerPrefixes.Add(fix); break;
-					case InnerFixType.Postfix: appliedFixes.SortedInnerPostfixes.Add(fix); break;
-					case InnerFixType.Finalizer: appliedFixes.SortedInnerPrefixes.Add(fix); break;
+					case InnerFixType.Prefix: fixesForInstruction.SortedInnerPrefixes.Add(fix); break;
+					case InnerFixType.Postfix: fixesForInstruction.SortedInnerPostfixes.Add(fix); break;
+					case InnerFixType.Finalizer: fixesForInstruction.SortedInnerPrefixes.Add(fix); break;
 				}
 
 			}
@@ -84,8 +84,7 @@ namespace HarmonyLib
 		// Do we need to care about thread safety here?
 		internal Dictionary<CodeInstruction, Infixes> PrepareInfixes(IEnumerable<CodeInstruction> instructions)
 		{
-			if (m_Config != null) return m_Config;
-			Dictionary<MethodBase, List<CodeInstruction>> dict = new();
+			Dictionary<MethodBase, List<CodeInstruction>> dict = [];
 			foreach (var inst in instructions)
 			{
 				// Do we need to test for Calli too?
@@ -101,7 +100,7 @@ namespace HarmonyLib
 					}
 				}
 			}
-			Dictionary<CodeInstruction, Infixes> config = new();
+			Dictionary<CodeInstruction, Infixes> config = [];
 			foreach (var fixType in new[] { InnerFixType.Prefix, InnerFixType.Postfix, InnerFixType.Finalizer })
 			{
 				foreach (var fix in GetFixesForType(fixType))
@@ -135,7 +134,6 @@ namespace HarmonyLib
 					}
 				}
 			}
-			m_Config = config;
 			return config;
 		}
 	}
