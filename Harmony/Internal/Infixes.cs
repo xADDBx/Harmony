@@ -11,11 +11,11 @@ namespace HarmonyLib
 		private List<Patch> SortedInnerPrefixes;
 		private List<Patch> SortedInnerPostfixes;
 		private List<Patch> SortedInnerFinalizers;
-		internal Infixes(List<Patch> innerPrefixes, List<Patch> innerPostfixes, List<Patch> innerFinalizers)
+		private Infixes(List<Patch> sortedInnerPrefixes, List<Patch> sortedInnerPostfixes, List<Patch> sortedInnerFinalizers)
 		{
-			SortedInnerPrefixes = innerPrefixes;
-			SortedInnerPostfixes = innerPostfixes;
-			SortedInnerFinalizers = innerFinalizers;
+			SortedInnerPrefixes = sortedInnerPrefixes;
+			SortedInnerPostfixes = sortedInnerPostfixes;
+			SortedInnerFinalizers = sortedInnerFinalizers;
 		}
 
 		internal Infixes(Patch[] fixes, bool debug)
