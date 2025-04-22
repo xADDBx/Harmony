@@ -16,7 +16,7 @@ namespace HarmonyLib
 			var sortedPostfixes = GetSortedPatchMethods(original, patchInfo.postfixes, debug);
 			var sortedTranspilers = GetSortedPatchMethods(original, patchInfo.transpilers, debug);
 			var sortedFinalizers = GetSortedPatchMethods(original, patchInfo.finalizers, debug);
-			var sortedInfixes = GetSortedPatchMethods(original, patchInfo.infixes, debug);
+			var sortedInfixes = new Infixes(patchInfo.infixes, debug);
 
 			var patcher = new MethodCreator(new MethodCreatorConfig(
 				original,
@@ -67,7 +67,7 @@ namespace HarmonyLib
 				empty,
 				transpilers,
 				empty,
-				empty,
+				Infixes.Empty,
 				debug
 			));
 			var (replacement, finalInstructions) = patcher.CreateReplacement();

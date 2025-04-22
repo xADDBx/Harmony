@@ -87,6 +87,13 @@ namespace HarmonyLib
 				&& sortedPatchArray.All(x => patches.Contains(x, new PatchDetailedComparer()));
 		}
 
+		internal Patch[] GetSortedPatchArray()
+		{
+			if (sortedPatchArray is null)
+				_ = Sort(null);
+			return sortedPatchArray;
+		}
+
 		void CullDependency()
 		{
 			// Waiting list is already sorted on priority so start from the end.
@@ -140,6 +147,7 @@ namespace HarmonyLib
 			_ = handledPatches.Add(node);
 		}
 
+		//TODO: Adjust for Infixes
 		internal class PatchSortingWrapper : IComparable
 		{
 			internal readonly HashSet<PatchSortingWrapper> after;

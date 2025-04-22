@@ -17,10 +17,10 @@ namespace HarmonyLib
 		internal readonly List<MethodInfo> postfixes;
 		internal readonly List<MethodInfo> transpilers;
 		internal readonly List<MethodInfo> finalizers;
-		internal readonly List<MethodInfo> infixes;
+		internal readonly Infixes infixes;
 		internal readonly bool debug;
 
-		internal MethodCreatorConfig(MethodBase original, MethodBase source, List<MethodInfo> prefixes, List<MethodInfo> postfixes, List<MethodInfo> transpilers, List<MethodInfo> finalizers, List<MethodInfo> infixes, bool debug)
+		internal MethodCreatorConfig(MethodBase original, MethodBase source, List<MethodInfo> prefixes, List<MethodInfo> postfixes, List<MethodInfo> transpilers, List<MethodInfo> finalizers, Infixes infixes, bool debug)
 		{
 			this.original = original;
 			this.source = source;
@@ -75,7 +75,7 @@ namespace HarmonyLib
 
 		internal MethodBase MethodBase => source ?? original;
 		internal bool OriginalIsStatic => original.IsStatic;
-		internal IEnumerable<MethodInfo> Fixes => prefixes.Union(postfixes).Union(finalizers).Union(infixes);
+		internal IEnumerable<MethodInfo> Fixes => prefixes.Union(postfixes).Union(finalizers);
 		internal IEnumerable<InjectedParameter> InjectionsFor(MethodInfo fix, InjectionType type = InjectionType.Unknown)
 		{
 			if (injections.TryGetValue(fix, out var list))

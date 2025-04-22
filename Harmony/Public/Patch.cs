@@ -45,9 +45,9 @@ namespace HarmonyLib
 		private int methodToken;
 		private string moduleGUID;
 
-		/// <summary>For an infix patch, this defines the inner method that we will apply the patch to</summary>
+		/// <summary>This defines an inner fix patch</summary>
 		///
-		public readonly InnerMethod innerMethod;
+		public readonly InnerFix InnerFix;
 
 		/// <summary>The method of the static patch method</summary>
 		///

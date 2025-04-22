@@ -9,6 +9,9 @@ namespace HarmonyLib
 		Prefix,
 		/// <summary>An inner postfix</summary>
 		/// 
-		Postfix
+		Postfix,
+		/// <summary>An inner finalizer</summary>
+		/// 
+		Finalizer
 	}
 }

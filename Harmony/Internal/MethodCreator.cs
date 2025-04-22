@@ -123,6 +123,9 @@ namespace HarmonyLib
 
 			var endLabels = new List<Label>();
 			var replacement = copier.Finalize(out var hasReturnCode, out var methodEndsInDeadCode, endLabels);
+
+			var infixConfig = config.infixes.PrepareInfixes(replacement);
+
 			config.AddCode(Nop["start original"]);
 			config.AddCodes(this.CleanupCodes(replacement, endLabels));
 			config.AddCode(Nop["end original"]);

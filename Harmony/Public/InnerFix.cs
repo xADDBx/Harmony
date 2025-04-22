@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace HarmonyLib
 {
-	/// <summary>The base class for InnerPrefix and InnerPostfix</summary>
+	/// <summary>The base class for InnerPrefix, InnerPostfix and InnerFinalizer</summary>
 	///
 	[Serializable]
 	public abstract partial class InnerFix
