@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -8,9 +9,9 @@ namespace HarmonyLib
 	internal class Infixes
 	{
 		internal static Infixes Empty = new([], false);
-		private List<Patch> SortedInnerPrefixes;
-		private List<Patch> SortedInnerPostfixes;
-		private List<Patch> SortedInnerFinalizers;
+		private readonly List<Patch> SortedInnerPrefixes;
+		private readonly List<Patch> SortedInnerPostfixes;
+		private readonly List<Patch> SortedInnerFinalizers;
 		private Infixes(List<Patch> sortedInnerPrefixes, List<Patch> sortedInnerPostfixes, List<Patch> sortedInnerFinalizers)
 		{
 			SortedInnerPrefixes = sortedInnerPrefixes;
@@ -42,9 +43,9 @@ namespace HarmonyLib
 				SortedInnerFinalizers = [.. new PatchSorter([.. innerPrefixes], debug).GetSortedPatchArray()];
 			} else
 			{
-				innerPrefixes = [];
-				innerPostfixes = [];
-				innerFinalizers = [];
+				SortedInnerPrefixes = [];
+				SortedInnerPostfixes = [];
+				SortedInnerFinalizers = [];
 			}
 		}
 		private Dictionary<CodeInstruction, Infixes> m_Config = null;
@@ -84,6 +85,7 @@ namespace HarmonyLib
 		// Do we need to care about thread safety here?
 		internal Dictionary<CodeInstruction, Infixes> PrepareInfixes(IEnumerable<CodeInstruction> instructions)
 		{
+			if (SortedInnerPrefixes.Count == 0 && SortedInnerPostfixes.Count == 0 && SortedInnerFinalizers.Count == 0) return [];
 			Dictionary<MethodBase, List<CodeInstruction>> dict = [];
 			foreach (var inst in instructions)
 			{
